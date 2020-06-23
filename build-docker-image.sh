@@ -66,31 +66,31 @@ bx cr images --restrict ${REGISTRY_NAMESPACE}/${IMAGE_NAME}
 ######################################################################################
 # Copy any artifacts that will be needed for deployment and testing to $WORKSPACE    #
 ######################################################################################
-echo "=========================================================="
-echo "COPYING ARTIFACTS needed for deployment and testing (in particular build.properties)"
+#echo "=========================================================="
+##echo "COPYING ARTIFACTS needed for deployment and testing (in particular build.properties)"
 
-echo "Checking archive dir presence"
-if [ -z "${ARCHIVE_DIR}" ]; then
-  echo -e "Build archive directory contains entire working directory."
-else
-  echo -e "Copying working dir into build archive directory: ${ARCHIVE_DIR} "
-  mkdir -p ${ARCHIVE_DIR}
-  find . -mindepth 1 -maxdepth 1 -not -path "./$ARCHIVE_DIR" -exec cp -R '{}' "${ARCHIVE_DIR}/" ';'
-fi
+#echo "Checking archive dir presence"
+#if [ -z "${ARCHIVE_DIR}" ]; then
+#  echo -e "Build archive directory contains entire working directory."
+#else
+#  echo -e "Copying working dir into build archive directory: ${ARCHIVE_DIR} "
+#  mkdir -p ${ARCHIVE_DIR}
+#  find . -mindepth 1 -maxdepth 1 -not -path "./$ARCHIVE_DIR" -exec cp -R '{}' "${ARCHIVE_DIR}/" ';'
+#fi
 
 # Persist env variables into a properties file (build.properties) so that all pipeline stages consuming this
 # build as input and configured with an environment properties file valued 'build.properties'
 # will be able to reuse the env variables in their job shell scripts.
 
 # If already defined build.properties from prior build job, append to it.
-cp build.properties $ARCHIVE_DIR/ || :
+#cp build.properties $ARCHIVE_DIR/ || :
 
 # IMAGE information from build.properties is used in Helm Chart deployment to set the release name
-echo "IMAGE_NAME=${IMAGE_NAME}" >> $ARCHIVE_DIR/build.properties
-echo "IMAGE_TAG=${IMAGE_TAG}" >> $ARCHIVE_DIR/build.properties
+#echo "IMAGE_NAME=${IMAGE_NAME}" >> $ARCHIVE_DIR/build.properties
+#echo "IMAGE_TAG=${IMAGE_TAG}" >> $ARCHIVE_DIR/build.properties
 # REGISTRY information from build.properties is used in Helm Chart deployment to generate cluster secret
-echo "REGISTRY_URL=${REGISTRY_URL}" >> $ARCHIVE_DIR/build.properties
-echo "REGISTRY_NAMESPACE=${REGISTRY_NAMESPACE}" >> $ARCHIVE_DIR/build.properties
-echo "GIT_BRANCH=${GIT_BRANCH}" >> $ARCHIVE_DIR/build.properties
-echo "File 'build.properties' created for passing env variables to subsequent pipeline jobs:"
-cat $ARCHIVE_DIR/build.properties
+#echo "REGISTRY_URL=${REGISTRY_URL}" >> $ARCHIVE_DIR/build.properties
+#echo "REGISTRY_NAMESPACE=${REGISTRY_NAMESPACE}" >> $ARCHIVE_DIR/build.properties
+#echo "GIT_BRANCH=${GIT_BRANCH}" >> $ARCHIVE_DIR/build.properties
+#echo "File 'build.properties' created for passing env variables to subsequent pipeline jobs:"
+#cat $ARCHIVE_DIR/build.properties
