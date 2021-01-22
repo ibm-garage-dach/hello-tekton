@@ -15,6 +15,8 @@ spec:
     - name: registryRegion
       description: the ibmcloud registry region
       default: us-south
+    - name: imageName
+      description: the base image name
     - name: cluster
       description: The IBM Cloud Kubernetes cluster name
     - name: clusterRegion
@@ -31,7 +33,7 @@ spec:
       spec:
         resources:
           requests:
-            storage:  5Gi
+            storage: 5Gi
         volumeMode: Filesystem
         accessModes:
           - ReadWriteOnce
@@ -41,28 +43,30 @@ spec:
         name: pipelinerun-$(uid)
       spec:
         pipelineRef:
-            name: pipeline
+          name: pipeline
         workspaces:
           - name: pipeline-pvc
             persistentVolumeClaim:
               claimName: pipelinerun-$(uid)-pvc
         params:
-        - name: repository
-          value: $(params.repository)
-        - name: revision
-          value: $(params.revision)
-        - name: apikey
-          value: $(params.apikey)
-        - name: registryNamespace
-          value: $(params.registryNamespace)
-        - name: registryRegion
-          value: $(params.registryRegion)
-        - name: cluster
-          value: $(params.cluster)
-        - name: clusterRegion
-          value: $(params.clusterRegion)
-        - name: clusterNamespace
-          value: $(params.clusterNamespace)
+          - name: repository
+            value: $(params.repository)
+          - name: revision
+            value: $(params.revision)
+          - name: apikey
+            value: $(params.apikey)
+          - name: registryNamespace
+            value: $(params.registryNamespace)
+          - name: registryRegion
+            value: $(params.registryRegion)
+          - name: imageName
+            value: $(params.imageName)
+          - name: cluster
+            value: $(params.cluster)
+          - name: clusterRegion
+            value: $(params.clusterRegion)
+          - name: clusterNamespace
+            value: $(params.clusterNamespace)
 ---
 apiVersion: tekton.dev/v1beta1
 kind: TriggerBinding
